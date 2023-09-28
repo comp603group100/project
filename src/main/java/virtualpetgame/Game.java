@@ -16,6 +16,7 @@ public class Game {
     FileIO fileIO;
     Autosave autosave;
     InputHandler inputHandler;
+    GameDataManager gameDBM;
 
     //Threads
     Thread tickThread;
@@ -31,7 +32,8 @@ public class Game {
         this.keyboard = new Scanner(System.in);
         this.renderer = new Renderer();
         this.tick = new Tick();
-        this.fileIO = new FileIO();
+        this.gameDBM = new GameDataManager();
+        this.fileIO = new FileIO(gameDBM);
         this.autosave = new Autosave(this.fileIO);
         this.inputHandler = new InputHandler(this);
     }
@@ -133,7 +135,7 @@ public class Game {
 
         //check if saves exist, then decide what to do.
         if (fileIO.savesExist() == false) {
-            if (!fileIO.getPlayedBefore()) {
+            if (!gameDBM.getPlayedBefore()) {
                 System.out.println("Seems like this is your first time playing.\n"
                         + "After creating a game and choosing your pet in the next step, the game will start.\n"
                         + "You can feed, play with, or clean your pet to keep them happy.\n"
@@ -141,13 +143,13 @@ public class Game {
                         + "If you neglect them, they'll become unhappy, or may even die.\n"
                         + "Press enter to start.");
                 keyboard.nextLine();
-                fileIO.setPlayedBefore();
+                gameDBM.setPlayedBefore(true);
             }
             
             System.out.println("You have no saved games.");
             createNewSave();
             
-        } else if (fileIO.savesExist() && fileIO.getPreviousGame() == null) {
+        } else if (fileIO.savesExist() && gameDBM.getPreviousGame() == null) {
             System.out.print("Would you like to load a save, or start a new game?\n"
                     + "Enter: [1] Load or [2] New: ");
 
@@ -191,7 +193,7 @@ public class Game {
                     case "continue":
                     case "cont":
                     case "1": {
-                        fileIO.setFileName(fileIO.getPreviousGame());
+                        fileIO.setFileName(gameDBM.getPreviousGame());
                         this.activePet = fileIO.load();
                         choosing = false;
                         break;

@@ -27,27 +27,26 @@ public class FileIO {
     private static final String SAVE_FOLDER = "./saves/";
     private static final String EXTENSION = ".save";
 
-    private static final String CONF_FOLDER = "./config/";
-    private static final String PREV_GAME_FILE = "previous.game";
-    private static final String PLAYED_BEFORE_FILE = "playedBefore";
-
     private final Scanner keyboard = new Scanner(System.in);
 
     private String fileName;
 
     private ActivePet activePet;
+    private final GameDataManager gdm;
 
     private final List<String> saves;
 
     /**
      * SaveLoadSystem constructor. Creates a list of saves available on
      * construction.
+     * @param gdm : the GameDataManager object used to store the currently active filename, or the previously played state.
      */
-    public FileIO() {
+    public FileIO(GameDataManager gdm) {
+        this.gdm = gdm;
+        
         //If the directories don't exist, create them.
         //This is safe to call without an if statement.
         new File(SAVE_FOLDER).mkdirs();
-        new File(CONF_FOLDER).mkdirs();
 
         this.saves = new ArrayList<>(listFiles(SAVE_FOLDER));
         for (int i = 0; i < saves.size(); i++) {
@@ -64,8 +63,8 @@ public class FileIO {
         This will ensure that when no saves exist, or the previous save is deleted, 
         that there's no game available for continuing.
          */
-        if (!this.savesExist() || !this.saves.contains(this.getPreviousGame())) {
-            this.writePreviousGame("");
+        if (!this.savesExist() || !this.saves.contains(this.gdm.getPreviousGame())) {
+            this.gdm.writePreviousGame("");
         }
     }
 
@@ -165,7 +164,7 @@ public class FileIO {
             FileOutputStream fileOutputStream = new FileOutputStream(SAVE_FOLDER + this.fileName + EXTENSION);
             try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
                 objectOutputStream.writeObject(this.activePet);
-                writePreviousGame(this.fileName);
+                this.gdm.writePreviousGame(this.fileName);
             }
 
         } catch (java.io.IOException e) {
@@ -218,70 +217,11 @@ public class FileIO {
     }
 
     /**
-     * writes the given string to a file used for storing the name of the
-     * previous game.
-     *
-     * @param s the string to write
-     */
-    private void writePreviousGame(String s) {
-        //exceptions can occur when trying to write a null object, we dont want that.
-        if (s == null) {
-            s = "";
-        }
-
-        try (BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(CONF_FOLDER + PREV_GAME_FILE))) {
-            bufferedWriter.write(s);
-        } catch (IOException ex) {
-            System.err.println("Error writing previous.game file");
-        }
-
-    }
-
-    /**
-     * returns the string contained in the previous game file.
-     *
-     * @return contains the name of the previous game file, or null if it
-     * doesn't exist.
-     */
-    public final String getPreviousGame() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(CONF_FOLDER + PREV_GAME_FILE))) {
-            return bufferedReader.readLine();
-        } catch (IOException ex) {
-            System.err.println("Error reading previous game from file");
-        }
-
-        return null;
-    }
-
-    /**
-     * Creates the playedBefore file, if it doesn't exist already.
-     */
-    public final void setPlayedBefore() {
-        File f = new File(CONF_FOLDER + PLAYED_BEFORE_FILE);
-        try {
-            f.createNewFile();
-        } catch (IOException ex) {
-            //ignore, shouldn't happen and doesnt matter anyway if it does
-        }
-    }
-
-    /**
-     * Checks if the game has been played before by checking the existence of
-     * the playedBefore file.
-     *
-     * @return true if the file exists, false otherwise.
-     */
-    public final boolean getPlayedBefore() {
-        File f = new File(CONF_FOLDER + PLAYED_BEFORE_FILE);
-        return f.exists() && !f.isDirectory();
-    }
-
-    /**
      * Deletes the current save file, and removes it from the previous game
      * file.
      */
     public void delete() {
-        this.writePreviousGame("");
+        this.gdm.writePreviousGame("");
         File file = new File(SAVE_FOLDER + this.fileName + EXTENSION);
         file.delete();
     }

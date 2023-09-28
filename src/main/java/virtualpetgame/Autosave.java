@@ -14,10 +14,10 @@ public class Autosave implements Runnable{
     /**
      * Constructor for the autosaver.
      * 
-     * @param saverLoader the SaveLoadSystem object to use for saving.
+     * @param saverLoader the FileIO object to use for saving.
      */
-    public Autosave(FileIO saverLoader){
-        this.fileIO = saverLoader;
+    public Autosave(FileIO fileIO){
+        this.fileIO = fileIO;
     }
     
     @Override
