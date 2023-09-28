@@ -4,7 +4,9 @@ Thumbs.db
 config/
 saves/
 build/
+target/
 nbproject/private/
+
 
 # Compiled class file
 *.class
