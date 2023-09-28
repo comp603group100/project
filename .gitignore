@@ -8,7 +8,6 @@ target/
 nbproject/private/
 GameDatabase
 derby.properties
-README.md
 
 # Compiled class file
 *.class
