@@ -16,17 +16,27 @@ public class DBManager {
 
     Connection conn;
 
+    /**
+     * Creates the DBManager object and establishes a connection the DB server.
+     */
     public DBManager() {
-        establishConnection();
+        createConnection();
     }
 
+    /**
+     * @return the Connection object which connects to the DB server.
+     */
     public Connection getConnection() {
         return this.conn;
     }
 
-    //Establish connection
-    public void establishConnection() {
-        if (this.conn == null) {
+    /**
+     * Creates a connection to the DB server. 
+     * 
+     * Will also create the database or table if it doesn't yet exist.
+     */
+    public void createConnection() {
+        if (this.conn == null) { //ensure not already connected.
             try {
                 conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 
@@ -41,6 +51,7 @@ public class DBManager {
                     warning = warning.getNextWarning();
                 }
                 
+                //if the db doesnt exist, create a table in the newly created db.
                 if (!databaseExists) {
                      
                      conn.createStatement()
@@ -58,6 +69,9 @@ public class DBManager {
         }
     }
 
+    /**
+     * Close the connection to the DB serer
+     */
     public void closeConnection() {
         if (conn != null) {
             try {
