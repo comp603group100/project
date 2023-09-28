@@ -6,7 +6,8 @@ saves/
 build/
 target/
 nbproject/private/
-
+GameDatabase
+derby.properties
 
 # Compiled class file
 *.class
