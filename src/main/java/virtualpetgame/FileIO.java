@@ -39,23 +39,29 @@ public class FileIO {
     /**
      * SaveLoadSystem constructor. Creates a list of saves available on
      * construction.
-     * @param gdm : the GameDataManager object used to store the currently active filename, or the previously played state.
+     *
+     * @param gdm : the GameDataManager object used to store the currently
+     * active filename, or the previously played state.
      */
     public FileIO(GameDataManager gdm) {
         this.gdm = gdm;
-        
+
         //If the directories don't exist, create them.
         //This is safe to call without an if statement.
         new File(SAVE_FOLDER).mkdirs();
 
         this.saves = new ArrayList<>(listFiles(SAVE_FOLDER));
-        for (int i = 0; i < saves.size(); i++) {
-            saves.set(i, saves.get(i).replace(EXTENSION, "")); //remove the extensions
 
+        //We need to loop over the list twice here
+        //this is because saves size can change when files are removed.
+        for (int i = 0; i < saves.size(); i++) {
             //If MacOS .DS_Store files are found, remove them
             if (saves.get(i).equals(".DS_Store")) {
                 saves.remove(i);
             }
+        }
+        for (int i = 0; i < saves.size(); i++) {
+            saves.set(i, saves.get(i).replace(EXTENSION, "")); //remove the extensions
         }
 
         /*

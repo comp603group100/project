@@ -149,7 +149,7 @@ public class Game {
             System.out.println("You have no saved games.");
             createNewSave();
             
-        } else if (fileIO.savesExist() && gameDBM.getPreviousGame() == null) {
+        } else if (fileIO.savesExist() && (gameDBM.getPreviousGame() == null || gameDBM.getPreviousGame().equals(""))) {
             System.out.print("Would you like to load a save, or start a new game?\n"
                     + "Enter: [1] Load or [2] New: ");
 
