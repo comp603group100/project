@@ -74,15 +74,17 @@ public class FirstRunHelp extends javax.swing.JFrame implements GetWaitButton {
                         .addComponent(line4))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(line5))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(169, 169, 169)
-                        .addComponent(header)))
+                        .addComponent(line5)))
                 .addContainerGap(15, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(startButton)
-                .addGap(143, 143, 143))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(startButton)
+                        .addGap(129, 129, 129))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(header)
+                        .addGap(145, 145, 145))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,6 +113,7 @@ public class FirstRunHelp extends javax.swing.JFrame implements GetWaitButton {
         synchronized(startButton) {
             startButton.notify();
         }
+        this.dispose();
     }//GEN-LAST:event_startButtonActionPerformed
 
     /**

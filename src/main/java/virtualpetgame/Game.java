@@ -37,7 +37,7 @@ public class Game {
         this.fileIO = new FileIO(gameDBM);
         this.autosave = new Autosave(this.fileIO);
         this.inputHandler = new InputHandler(this);
-        this.gui = new GUI();
+        this.gui = new GUI(this);
     }
 
     //flags for checking game state
@@ -56,46 +56,34 @@ public class Game {
      * and lets them choose the pet type they want.
      */
     private void createNewSave() {
-        System.out.print("Enter a name for your new save: ");
-        String saveName = keyboard.nextLine();
-        while (fileIO.fileExists(saveName)) {
-            System.out.print("A save with that name already exists. Try something else: ");
-            saveName = keyboard.nextLine();
-        }
-        fileIO.setFileName(saveName);
-
-        boolean choosing = true;
-        while (choosing) {
-            System.out.println("What type of pet do you want?");
-            System.out.print("[1] Cat, [2] Dog, [3] Monkey: ");
-
-            String input = keyboard.nextLine().toLowerCase();
-            switch (input) {
-                case "cat":
-                case "1": {
-                    this.activePet = new ActivePet(new Cat());
-                    choosing = false;
-                    break;
-                }
-                case "dog":
-                case "2": {
-                    this.activePet = new ActivePet(new Dog());
-                    choosing = false;
-                    break;
-                }
-                case "monkey":
-                case "3": {
-                    this.activePet = new ActivePet(new Monkey());
-                    choosing = false;
-                    break;
-                }
-                default:
-                    System.out.println("Bad input, please just enter a number.");
+        boolean saveCreated = false;
+        
+        while (saveCreated == false) {
+            gui.showCreateSave();
+            gui.waitForButton();
+            
+            if(fileIO.fileExists(gui.getSaveName())){
+                gui.showError();
             }
-
+            else{
+                fileIO.setFileName(gui.getSaveName());
+                
+                switch (gui.getPetType()){
+                    case("Cat"):
+                        this.activePet = new ActivePet(new Cat());
+                        break;
+                    case("Dog"):
+                        this.activePet = new ActivePet(new Dog());
+                        break;
+                    case("Monkey"):
+                        this.activePet = new ActivePet(new Monkey());
+                        break;
+                }
+                
+                fileIO.setActivePet(this.activePet);
+                saveCreated = true;
+            }
         }
-
-        fileIO.setActivePet(this.activePet);
     }
 
     /**
@@ -129,30 +117,18 @@ public class Game {
         if (initialised == true) {
             return INIT_ALREADY_COMPLETE;
         }
-        
-        System.out.println("+---------------------------+\n"
-                         + "|        Welcome to...      |\n"
-                         + "|      Virtual Pet Game!    |\n"
-                         + "+---------------------------+");
 
         //check if saves exist, then decide what to do.
         if (fileIO.savesExist() == false) {
             if (!gameDBM.getPlayedBefore()) {
                 gui.showFirstRunHelp();
                 gui.waitForButton();
-                
-                System.out.println("Seems like this is your first time playing.\n"
-                        + "After creating a game and choosing your pet in the next step, the game will start.\n"
-                        + "You can feed, play with, or clean your pet to keep them happy.\n"
-                        + "The happier they are, the more money you'll earn.\n"
-                        + "If you neglect them, they'll become unhappy, or may even die.\n"
-                        + "Press enter to start.");
                 gameDBM.setPlayedBefore(true);
             }
-            
+
             System.out.println("You have no saved games.");
             createNewSave();
-            
+
         } else if (fileIO.savesExist() && (gameDBM.getPreviousGame() == null || gameDBM.getPreviousGame().equals(""))) {
             System.out.print("Would you like to load a save, or start a new game?\n"
                     + "Enter: [1] Load or [2] New: ");
