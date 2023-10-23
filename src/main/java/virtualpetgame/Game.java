@@ -17,6 +17,7 @@ public class Game {
     Autosave autosave;
     InputHandler inputHandler;
     GameDataManager gameDBM;
+    GUI gui;
 
     //Threads
     Thread tickThread;
@@ -36,6 +37,7 @@ public class Game {
         this.fileIO = new FileIO(gameDBM);
         this.autosave = new Autosave(this.fileIO);
         this.inputHandler = new InputHandler(this);
+        this.gui = new GUI();
     }
 
     //flags for checking game state
@@ -136,13 +138,15 @@ public class Game {
         //check if saves exist, then decide what to do.
         if (fileIO.savesExist() == false) {
             if (!gameDBM.getPlayedBefore()) {
+                gui.showFirstRunHelp();
+                gui.waitForButton();
+                
                 System.out.println("Seems like this is your first time playing.\n"
                         + "After creating a game and choosing your pet in the next step, the game will start.\n"
                         + "You can feed, play with, or clean your pet to keep them happy.\n"
                         + "The happier they are, the more money you'll earn.\n"
                         + "If you neglect them, they'll become unhappy, or may even die.\n"
                         + "Press enter to start.");
-                keyboard.nextLine();
                 gameDBM.setPlayedBefore(true);
             }
             
