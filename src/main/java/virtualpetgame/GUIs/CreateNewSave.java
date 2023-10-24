@@ -1,13 +1,11 @@
 package virtualpetgame.GUIs;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import virtualpetgame.Game;
 
 public class CreateNewSave extends javax.swing.JFrame implements GetWaitButton, ShowError {
 
-    Game game;
     String petType = "Cat"; //set default here incase the combo box isnt changed
     String saveName;
     
@@ -24,6 +22,7 @@ public class CreateNewSave extends javax.swing.JFrame implements GetWaitButton, 
         return this.saveName;
     }
     
+    @Override
     public void showError() {
         JOptionPane.showMessageDialog(this, "A save with that name already exists!\n"
                                             + "Try something else.", 
@@ -34,9 +33,8 @@ public class CreateNewSave extends javax.swing.JFrame implements GetWaitButton, 
     /**
      * Creates new form CreateNewSave
      */
-    public CreateNewSave(Game game) {
+    public CreateNewSave() {
         initComponents();
-        this.game = game;
     }
 
     /**
@@ -164,7 +162,7 @@ public class CreateNewSave extends javax.swing.JFrame implements GetWaitButton, 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CreateNewSave(new Game()).setVisible(true);
+                new CreateNewSave().setVisible(true);
             }
         });
     }

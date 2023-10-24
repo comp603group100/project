@@ -7,9 +7,8 @@ import virtualpetgame.GUIs.*;
 public class GUI {
 
     private JFrame currentFrame;
-    private JButton waiterButton;
 
-    private Game game;
+    private final Game game;
 
     public GUI(Game game) {
         this.game = game;
@@ -17,13 +16,15 @@ public class GUI {
 
     public void waitForButton() {
 
+        JButton waiterButton = getWaitButton();
+        
         if (waiterButton != null) {
 
             synchronized (waiterButton) {
                 try {
                     waiterButton.wait();
                 } catch (InterruptedException ex) {
-                    //idc rn
+                    //shouldnt happen and its kinda doomed if it does
                 }
             }
         }
@@ -32,14 +33,13 @@ public class GUI {
     private void setCurrentFrame(JFrame frame) {
         this.currentFrame = frame;
     }
-
-    private void setWaitButton(Object o) {
-        if (o instanceof GetWaitButton) {
-            GetWaitButton waiter = (GetWaitButton) o;
-            this.waiterButton = waiter.getWaitButton();
-        } else {
-            this.waiterButton = null;
+    
+    private JButton getWaitButton() {
+        if (this.currentFrame instanceof GetWaitButton) {
+            return ((GetWaitButton) this.currentFrame).getWaitButton();
         }
+        else
+            return null;
     }
     
     public void showError() {
@@ -51,30 +51,26 @@ public class GUI {
     public void showFirstRunHelp() {
         this.setCurrentFrame(new FirstRunHelp());
         this.currentFrame.setTitle("Welcome!");
-        this.setWaitButton(this.currentFrame);
         this.currentFrame.setVisible(true);
     }
 
     public void showCreateSave() {
-        this.setCurrentFrame(new CreateNewSave(game));
+        this.setCurrentFrame(new CreateNewSave());
         this.currentFrame.setTitle("Create new save");
-        this.setWaitButton(this.currentFrame);
         this.currentFrame.setVisible(true);
     }
 
     public String getPetType() {
         if (currentFrame instanceof CreateNewSave) {
             return ((CreateNewSave) currentFrame).getPetType();
-        } else {
+        } else
             return null;
-        }
     }
 
     public String getSaveName() {
         if (currentFrame instanceof CreateNewSave) {
             return ((CreateNewSave) currentFrame).getSaveName();
-        } else {
+        } else
             return null;
-        }
     }
 }
