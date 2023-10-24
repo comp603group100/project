@@ -126,7 +126,6 @@ public class Game {
                 gameDBM.setPlayedBefore(true);
             }
 
-            System.out.println("You have no saved games.");
             createNewSave();
 
         } else if (fileIO.savesExist() && (gameDBM.getPreviousGame() == null || gameDBM.getPreviousGame().equals(""))) {
