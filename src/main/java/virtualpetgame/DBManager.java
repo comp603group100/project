@@ -64,7 +64,7 @@ public class DBManager {
                 }
 
             } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
+                //if table exists i dont wanna hear about it
             }
         }
     }
