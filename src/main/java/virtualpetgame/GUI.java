@@ -9,6 +9,7 @@ public class GUI {
     private JFrame currentFrame;
 
     private final Game game;
+    public MainGameGuiManager mainGame;
 
     public GUI(Game game) {
         this.game = game;
@@ -94,5 +95,12 @@ public class GUI {
         this.setCurrentFrame(new LoadMenu(this.game));
         this.currentFrame.setTitle("Load File");
         this.currentFrame.setVisible(true); 
+    }
+    
+    public void showMainGame(Game game) { //we should know the game is working correctly by the time this method is called. rn thats managed in game.java
+        this.setCurrentFrame(new MainGame(game));
+        this.currentFrame.setTitle("Virtual Pet Game");
+        this.currentFrame.setVisible(true);
+        this.mainGame = new MainGameGuiManager(this.game, (MainGame)currentFrame);
     }
 }

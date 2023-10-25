@@ -17,7 +17,6 @@ public class Main {
                 System.out.println("Corrupted or incompatible save.");
         }
         else {
-            System.out.println("Game started!");
             g.start(); //actually begin the game
         }
     }

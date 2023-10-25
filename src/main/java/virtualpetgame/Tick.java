@@ -14,7 +14,7 @@ public class Tick implements Runnable {
     private static final int CLEANLINESS = 2;
 
     private static final int SLEEP_TIME = 1000; //1 second
-    private boolean eventOccured = false;
+    private boolean ticked = false;
 
     private final Random rand = new Random();
 
@@ -42,15 +42,13 @@ public class Tick implements Runnable {
                             this.activePet.decreaseCleanliness(rand.nextInt(5) + 1);
                             break;
                     }
-                    
-                    eventOccured = true;
                 }
-                
+
                 if (rand.nextInt(10) == 0) {
                     this.activePet.increaseMoney();
-                    eventOccured = true;
                 }
-                
+
+                ticked = true;
 
                 Thread.sleep(SLEEP_TIME);
             } catch (InterruptedException ex) {
@@ -73,12 +71,12 @@ public class Tick implements Runnable {
      *
      * @return Boolean true if an event has occurred, false otherwise.
      */
-    public synchronized boolean eventOccured() {
-        if (eventOccured == false) {
-            return eventOccured;
+    public synchronized boolean ticked() {
+        if (ticked == false) {
+            return ticked;
         }
 
-        eventOccured = false;
+        ticked = false;
         return true;
     }
 }

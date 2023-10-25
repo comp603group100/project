@@ -9,19 +9,16 @@ import virtualpetgame.pets.*;
 public class Game {
 
     //game objects
-    Renderer renderer;
     Tick tick;
-    ActivePet activePet;
+    public ActivePet activePet; //same as below, need to control pet status through the game from the gui
     public FileIO fileIO; //public so we can manage the files from anything that interfaces with the game (i.e. the GUI)
     Autosave autosave;
-    InputHandler inputHandler;
     GameDataManager gameDBM;
     GUI gui;
 
     //Threads
     Thread tickThread;
     Thread autosaveThread;
-    Thread inputHandlerThread;
 
     /**
      * Constructor to create a new game object. After creating the game object,
@@ -29,12 +26,10 @@ public class Game {
      * game. Then, the start() method can be called to start the game.
      */
     public Game() {
-        this.renderer = new Renderer();
         this.tick = new Tick();
         this.gameDBM = new GameDataManager();
         this.fileIO = new FileIO(gameDBM);
         this.autosave = new Autosave(this.fileIO);
-        this.inputHandler = new InputHandler(this);
         this.gui = new GUI(this);
     }
 
@@ -159,10 +154,8 @@ public class Game {
         //Create threads
         this.tickThread = new Thread(tick, "tick");
         this.autosaveThread = new Thread(autosave, "autosave");
-        this.inputHandlerThread = new Thread(inputHandler, "inputHandler");
 
         //Set required info for game to work.
-        this.renderer.setActivePet(activePet);
         this.tick.setActivePet(activePet);
 
         initialised = true;
@@ -187,15 +180,17 @@ public class Game {
 
         this.tickThread.start(); //begin tick thread, for game event updates.
         this.autosaveThread.start(); //begin autosave thread. Also saves the game as soon as it starts.
-        this.inputHandlerThread.start(); //begin the input handler thread
 
-        this.renderer.update(); //first draw, otherwise nothing will show until next tick event
+        this.gui.showMainGame(this);
+        if (gui.mainGame.verify() != 0)
+            return;
+        this.gui.mainGame.update();
 
         //MAIN GAME LOOP - very simple, waits for tick events, then updates the screen if things have changed.
         while (this.running) {
 
-            if (this.tick.eventOccured()) {
-                this.renderer.update();
+            if (this.tick.ticked()) {
+                this.gui.mainGame.update();
 
                 if (this.activePet.state == State.DEAD) {
                     //end game if pet dead
@@ -210,17 +205,15 @@ public class Game {
         this.autosave.stopThread();
 
         if (this.activePet.state == State.DEAD) {
-            /*
-            Game pauses here due to the inputHandler waiting for input.
-            This is intentional, so an AFK user can see that their game has ended when they return.
-             */
-
+            this.gui.mainGame.dead(); //show the death dialog so that the user knows what happened
             this.fileIO.delete();
         } else {
-            System.out.println("Game ended. Your progress has been automatically saved.");
-
-            //Save progress.
             fileIO.save();
         }
+    }
+    
+    //lets us update the gui from wherever we want
+    public void updateGUI() {
+        this.gui.mainGame.update();
     }
 }
