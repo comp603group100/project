@@ -36,6 +36,7 @@ public class CreateNewSave extends javax.swing.JFrame implements GetWaitButton, 
      */
     public CreateNewSave() {
         initComponents();
+        GUIutils.setWindowPosition(this);
     }
 
     /**

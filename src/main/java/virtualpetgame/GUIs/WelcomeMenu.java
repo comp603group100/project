@@ -34,6 +34,7 @@ public class WelcomeMenu extends javax.swing.JFrame implements GetWaitButton, Ge
         continueButton.setEnabled(cont);
         if (cont == false)
             continueButton.setToolTipText("No games available to continue");
+        GUIutils.setWindowPosition(this);
     }
 
     /**

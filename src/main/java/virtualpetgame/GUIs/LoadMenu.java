@@ -23,6 +23,7 @@ public class LoadMenu extends javax.swing.JFrame implements GetWaitButton, GetOp
     public LoadMenu(Game game) {
         this.game = game;
         initComponents();
+        GUIutils.setWindowPosition(this);
     }
 
     /**

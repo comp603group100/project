@@ -14,6 +14,7 @@ public class FirstRunHelp extends javax.swing.JFrame implements GetWaitButton {
      */
     public FirstRunHelp() {
         initComponents();
+        GUIutils.setWindowPosition(this);
     }
 
     /**
