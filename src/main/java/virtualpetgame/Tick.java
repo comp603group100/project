@@ -13,7 +13,7 @@ public class Tick implements Runnable {
     private static final int BOREDOM = 1;
     private static final int CLEANLINESS = 2;
     
-    private static final int SLEEP_TIME = 1000;
+    private static final int SLEEP_TIME = 1000; //1 second
     private boolean eventOccured = false;
 
     private final Random rand = new Random();
