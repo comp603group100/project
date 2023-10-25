@@ -17,7 +17,7 @@ public class GUI {
     public void waitForButton() {
 
         JButton waiterButton = getWaitButton();
-        
+
         if (waiterButton != null) {
 
             synchronized (waiterButton) {
@@ -33,15 +33,39 @@ public class GUI {
     private void setCurrentFrame(JFrame frame) {
         this.currentFrame = frame;
     }
-    
+
     private JButton getWaitButton() {
         if (this.currentFrame instanceof GetWaitButton) {
             return ((GetWaitButton) this.currentFrame).getWaitButton();
-        }
-        else
+        } else {
             return null;
+        }
+    }
+
+    public String getPetType() {
+        if (currentFrame instanceof CreateNewSave) {
+            return ((CreateNewSave) currentFrame).getPetType();
+        } else {
+            return null;
+        }
+    }
+
+    public String getSaveName() {
+        if (currentFrame instanceof CreateNewSave) {
+            return ((CreateNewSave) currentFrame).getSaveName();
+        } else {
+            return null;
+        }
     }
     
+    public String getOption() {
+        if (currentFrame instanceof GetOption) {
+            return ((GetOption) currentFrame).getOption();
+        } else {
+            return null;
+        }
+    }
+
     public void showError() {
         if (currentFrame instanceof ShowError) {
             ((ShowError) currentFrame).showError();
@@ -59,18 +83,10 @@ public class GUI {
         this.currentFrame.setTitle("Create new save");
         this.currentFrame.setVisible(true);
     }
-
-    public String getPetType() {
-        if (currentFrame instanceof CreateNewSave) {
-            return ((CreateNewSave) currentFrame).getPetType();
-        } else
-            return null;
-    }
-
-    public String getSaveName() {
-        if (currentFrame instanceof CreateNewSave) {
-            return ((CreateNewSave) currentFrame).getSaveName();
-        } else
-            return null;
+    
+    public void showWelcomeMenu(boolean cont) {
+        this.setCurrentFrame(new WelcomeMenu(cont));
+        this.currentFrame.setTitle("Welcome");
+        this.currentFrame.setVisible(true);
     }
 }

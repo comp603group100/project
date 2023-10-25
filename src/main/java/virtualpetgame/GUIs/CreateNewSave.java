@@ -28,6 +28,7 @@ public class CreateNewSave extends javax.swing.JFrame implements GetWaitButton, 
                                             + "Try something else.", 
                                       "Error",
                                       JOptionPane.WARNING_MESSAGE);
+        this.dispose(); //if we don't dispose the window here it exists in the background forever
     }
     
     /**

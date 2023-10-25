@@ -9,7 +9,6 @@ import virtualpetgame.pets.*;
 public class Game {
 
     //game objects
-    Scanner keyboard;
     Renderer renderer;
     Tick tick;
     ActivePet activePet;
@@ -30,7 +29,6 @@ public class Game {
      * game. Then, the start() method can be called to start the game.
      */
     public Game() {
-        this.keyboard = new Scanner(System.in);
         this.renderer = new Renderer();
         this.tick = new Tick();
         this.gameDBM = new GameDataManager();
@@ -57,29 +55,28 @@ public class Game {
      */
     private void createNewSave() {
         boolean saveCreated = false;
-        
+
         while (saveCreated == false) {
             gui.showCreateSave();
             gui.waitForButton();
-            
-            if(fileIO.fileExists(gui.getSaveName())){
+
+            if (fileIO.fileExists(gui.getSaveName())) {
                 gui.showError();
-            }
-            else{
+            } else {
                 fileIO.setFileName(gui.getSaveName());
-                
-                switch (gui.getPetType()){
-                    case("Cat"):
+
+                switch (gui.getPetType()) {
+                    case ("Cat"):
                         this.activePet = new ActivePet(new Cat());
                         break;
-                    case("Dog"):
+                    case ("Dog"):
                         this.activePet = new ActivePet(new Dog());
                         break;
-                    case("Monkey"):
+                    case ("Monkey"):
                         this.activePet = new ActivePet(new Monkey());
                         break;
                 }
-                
+
                 fileIO.setActivePet(this.activePet);
                 saveCreated = true;
             }
@@ -125,80 +122,27 @@ public class Game {
                 gui.waitForButton();
                 gameDBM.setPlayedBefore(true);
             }
-
             createNewSave();
-
-        } else if (fileIO.savesExist() && (gameDBM.getPreviousGame() == null || gameDBM.getPreviousGame().equals(""))) {
-            System.out.print("Would you like to load a save, or start a new game?\n"
-                    + "Enter: [1] Load or [2] New: ");
-
-            boolean choosing = true;
-            while (choosing) {
-
-                String input = keyboard.nextLine().toLowerCase();
-                switch (input) {
-                    case "l":
-                    case "load":
-                    case "1": {
-                        fileIO.setFileName(fileIO.chooseFile());
-                        this.activePet = fileIO.load();
-                        choosing = false;
-                        break;
-                    }
-                    case "n":
-                    case "new":
-                    case "2": {
-                        createNewSave();
-                        choosing = false;
-                        break;
-                    }
-                    default: {
-                        System.out.print("Bad choice, please enter 1 or 2: ");
-                    }
-                }
-
-            }
         } else {
-            System.out.print("Would you like to continue your last played save, load a save, or start a new game?\n"
-                    + "Enter: [1] Continue, [2] Load or [3] New: ");
-
-            boolean choosing = true;
-
-            while (choosing) {
-
-                String input = keyboard.nextLine().toLowerCase();
-                switch (input) {
-                    case "c":
-                    case "continue":
-                    case "cont":
-                    case "1": {
-                        fileIO.setFileName(gameDBM.getPreviousGame());
-                        this.activePet = fileIO.load();
-                        choosing = false;
-                        break;
-                    }
-                    case "l":
-                    case "load":
-                    case "2": {
-                        fileIO.setFileName(fileIO.chooseFile());
-                        this.activePet = fileIO.load();
-                        choosing = false;
-                        break;
-                    }
-                    case "n":
-                    case "new":
-                    case "3": {
-                        createNewSave();
-                        choosing = false;
-                        break;
-                    }
-                    default: {
-                        System.out.print("Bad choice, please enter 1, 2, or 3: ");
-                    }
-                }
-
+            boolean canContinueGame = !(fileIO.savesExist() && (gameDBM.getPreviousGame() == null || gameDBM.getPreviousGame().equals("")));
+            gui.showWelcomeMenu(canContinueGame);
+            gui.waitForButton();
+            switch (gui.getOption()) {
+                case ("load"):
+                    fileIO.setFileName(fileIO.chooseFile());
+                    this.activePet = fileIO.load();
+                    break;
+                case ("new"):
+                    createNewSave();
+                    break;
+                case ("cont"):
+                    fileIO.setFileName(gameDBM.getPreviousGame());
+                    this.activePet = fileIO.load();
+                    break;
+                default:
+                    System.out.println("[ERROR] Unhandled case in welcome menu");
+                    break;
             }
-
         }
 
         //final check to make sure things worked properly.
