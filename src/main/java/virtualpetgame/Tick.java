@@ -20,6 +20,11 @@ public class Tick implements Runnable {
 
     private ActivePet activePet;
 
+    /**
+     * Used for setting the activePet to be ticked
+     * 
+     * @param activePet the ActivePet object
+     */
     public void setActivePet(ActivePet activePet) {
         this.activePet = activePet;
     }

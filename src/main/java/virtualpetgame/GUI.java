@@ -1,3 +1,6 @@
+/**
+ * @author group100 (19094184, 19088716)
+ */
 package virtualpetgame;
 
 import javax.swing.JButton;
@@ -34,7 +37,7 @@ public class GUI {
                 try {
                     waiterButton.wait();
                 } catch (InterruptedException ex) {
-                    //shouldnt happen and its kinda doomed if it does
+                    //shouldnt happen and its kinda doomed if it does i wouldnt even know what to do anyway
                 }
             }
         }

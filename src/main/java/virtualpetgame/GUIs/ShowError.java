@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+/**
+ * @author group100 (19094184, 19088716)
  */
 package virtualpetgame.GUIs;
 
-/**
- *
- * @author johnn
- */
 public interface ShowError {
         /**
          * Used to show the current frame's error message, if applicable.

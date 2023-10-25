@@ -1,3 +1,6 @@
+/**
+ * @author group100 (19094184, 19088716)
+ */
 package virtualpetgame.GUIs;
 
 import java.awt.GraphicsConfiguration;
@@ -7,7 +10,12 @@ import javax.swing.JFrame;
 
 public class GUIutils {
 
-    public static void setWindowPosition(JFrame frame) {
+    /**
+     * Sets the window position to the center of the monitor
+     * 
+     * @param frame the frame to be centered
+     */
+    public static void centerWindow(JFrame frame) {
         GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         GraphicsDevice[] allDevices = env.getScreenDevices();
         GraphicsConfiguration config = allDevices[0].getDefaultConfiguration();

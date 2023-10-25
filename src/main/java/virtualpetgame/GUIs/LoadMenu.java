@@ -1,3 +1,6 @@
+/**
+ * @author group100 (19094184, 19088716)
+ */
 package virtualpetgame.GUIs;
 
 import javax.swing.JButton;
@@ -5,13 +8,18 @@ import virtualpetgame.Game;
 
 public class LoadMenu extends javax.swing.JFrame implements GetWaitButton, GetOption{
 
-    Game game;
+    Game game; //main game controller object
     
     @Override
     public JButton getWaitButton() {
         return this.continueButton;
     }
     
+    /**
+     * Returns the index of the selected item
+     * 
+     * @return a number relative to the index in the list
+     */
     @Override
     public String getOption() {
         return Integer.toString(this.fileSelectionComboBox.getSelectedIndex());
@@ -23,7 +31,7 @@ public class LoadMenu extends javax.swing.JFrame implements GetWaitButton, GetOp
     public LoadMenu(Game game) {
         this.game = game;
         initComponents();
-        GUIutils.setWindowPosition(this);
+        GUIutils.centerWindow(this);
     }
 
     /**
@@ -81,48 +89,15 @@ public class LoadMenu extends javax.swing.JFrame implements GetWaitButton, GetOp
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Once the user continues, notify whatever is waiting for this menu.
+     */
     private void continueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueButtonActionPerformed
         synchronized(continueButton) {
             continueButton.notify();
         }
         this.dispose();
     }//GEN-LAST:event_continueButtonActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoadMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoadMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoadMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoadMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new LoadMenu(new Game()).setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel chooseFileLabel;

@@ -1,3 +1,6 @@
+/**
+ * @author group100 (19094184, 19088716)
+ */
 package virtualpetgame.GUIs;
 
 import javax.swing.JOptionPane;
@@ -8,36 +11,82 @@ public class MainGame extends javax.swing.JFrame {
 
     private final Game game;
 
+    /**
+     * Creates new form MainGame
+     */
+    public MainGame(Game game) {
+        this.game = game;
+        initComponents();
+        GUIutils.centerWindow(this);
+    }
+
+    /**
+     * Sets the art to display in the art box
+     *
+     * @param art a String to print into the box
+     */
     public void setArt(String art) {
         this.petArtTextArea.setText(art);
     }
 
+    /**
+     * Sets the value of the hunger bar
+     *
+     * @param percentage an int from 0 - 100
+     */
     public void setHunger(int percentage) {
         this.hungerBar.setValue(percentage);
     }
 
+    /**
+     * Sets the value of the boredom bar
+     *
+     * @param percentage an int from 0 - 100
+     */
     public void setBoredom(int percentage) {
         this.boredomBar.setValue(percentage);
     }
 
+    /**
+     * Sets the value of the cleanliness bar
+     *
+     * @param percentage an int from 0 - 100
+     */
     public void setCleanliness(int percentage) {
         this.cleanlinessBar.setValue(percentage);
     }
 
+    /**
+     * Sets the text to show as the pets mood
+     *
+     * @param mood a String containing the mood text
+     */
     public void setMood(String mood) {
         this.moodTextField.setText(mood);
     }
 
+    /**
+     * Sets the money value to display
+     *
+     * @param money an int value of money to display
+     */
     public void setMoney(int money) {
         this.moneyBar.setText("$" + Integer.toString(money));
     }
 
+    /**
+     * Carries out any tick events the GUI might be waiting for
+     */
     public void tick() {
         this.checkErrorMessage();
     }
 
+    /**
+     * Shows the death dialog, and disposes of the frame. Should only be called
+     * when the game is shutting down.
+     */
     public void showDeathDialog() {
-        JOptionPane.showMessageDialog(this, 
+        JOptionPane.showMessageDialog(this,
                 "Your pet has died!\n"
                 + "Your save will be deleted automatically.",
                 "Oh no!",
@@ -45,8 +94,11 @@ public class MainGame extends javax.swing.JFrame {
         this.dispose();
     }
 
+    /**
+     * Shows the help dialog box
+     */
     private void showHelpDialog() {
-        JOptionPane.showMessageDialog(this, 
+        JOptionPane.showMessageDialog(this,
                 "How to play:\n"
                 + "Feed, play with, or clean your pet to keep them happy.\n"
                 + "Try to keep hunger and boredom low, and cleanliness high.\n"
@@ -57,14 +109,23 @@ public class MainGame extends javax.swing.JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Prints some error text in red, into the game window
+     *
+     * @param text a String to print
+     */
     private void showErrorText(String text) {
         this.errorMessageLabel.setText(text);
         this.errorMessageLabel.setEnabled(true);
     }
 
+    //timeout counter we can use to track the ticks
     private int errorTimeoutCount;
 
-    //If an error message exists, waits 5 ticks to remove it.
+    /**
+     * Waits for the GUI to be ticked, and if 5 ticks have passed, clears the
+     * error message.
+     */
     private void checkErrorMessage() {
         if (!this.errorMessageLabel.getText().equals("")) {
             if (++errorTimeoutCount > 5) {
@@ -72,15 +133,6 @@ public class MainGame extends javax.swing.JFrame {
                 this.showErrorText("");
             }
         }
-    }
-
-    /**
-     * Creates new form MainGame
-     */
-    public MainGame(Game game) {
-        this.game = game;
-        initComponents();
-        GUIutils.setWindowPosition(this);
     }
 
     /**
@@ -257,13 +309,19 @@ public class MainGame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void moneyBarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moneyBarActionPerformed
-        //TODO
+        //Does nothing
     }//GEN-LAST:event_moneyBarActionPerformed
 
+    /**
+     * Shows the help dialog
+     */
     private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
         this.showHelpDialog();
     }//GEN-LAST:event_helpButtonActionPerformed
 
+    /**
+     * If the user can afford it, plays with the pet
+     */
     private void playButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playButtonActionPerformed
         if (game.activePet.getMoney() < ActivePet.PLAY_COST) {
             this.showErrorText("You can't afford that!");
@@ -274,6 +332,9 @@ public class MainGame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_playButtonActionPerformed
 
+    /**
+     * If the user can afford it, cleans the pet
+     */
     private void cleanButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cleanButtonActionPerformed
         if (game.activePet.getMoney() < ActivePet.CLEAN_COST) {
             this.showErrorText("You can't afford that!");
@@ -284,6 +345,9 @@ public class MainGame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_cleanButtonActionPerformed
 
+    /**
+     * If the user can afford it, feeds the pet
+     */
     private void feedButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_feedButtonActionPerformed
         if (game.activePet.getMoney() < ActivePet.FEED_COST) {
             this.showErrorText("You can't afford that!");
@@ -295,45 +359,15 @@ public class MainGame extends javax.swing.JFrame {
     }//GEN-LAST:event_feedButtonActionPerformed
 
     private void moodTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moodTextFieldActionPerformed
-        // TODO add your handling code here:
+        //Does nothing
     }//GEN-LAST:event_moodTextFieldActionPerformed
 
+    /**
+     *  Makes sure the game gets saved if the window is closing
+     */
     private void gameExiting(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_gameExiting
         game.fileIO.save();
     }//GEN-LAST:event_gameExiting
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainGame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new MainGame(new Game()).setVisible(true);
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar boredomBar;

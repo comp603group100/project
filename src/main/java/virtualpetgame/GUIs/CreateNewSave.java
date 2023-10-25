@@ -1,3 +1,6 @@
+/**
+ * @author group100 (19094184, 19088716)
+ */
 package virtualpetgame.GUIs;
 
 import javax.swing.JButton;
@@ -7,21 +10,34 @@ import virtualpetgame.Game;
 public class CreateNewSave extends javax.swing.JFrame implements GetWaitButton, ShowError {
 
     String petType = "Cat"; //set default here incase the combo box isnt changed
-    String saveName;
+    String saveName; //stores the save name
     
     @Override
     public JButton getWaitButton() {
         return this.continueButton;
     }
     
+    /**
+     * Gets the pet type
+     * 
+     * @return a String containing the pet type
+     */
     public String getPetType() {
         return this.petType;
     }
     
+    /**
+     * Gets the save name
+     * 
+     * @return a String containing the save name
+     */
     public String getSaveName() {
         return this.saveName;
     }
     
+    /**
+     * Shows an error message
+     */
     @Override
     public void showError() {
         JOptionPane.showMessageDialog(this, "A save with that name already exists!\n"
@@ -36,7 +52,7 @@ public class CreateNewSave extends javax.swing.JFrame implements GetWaitButton, 
      */
     public CreateNewSave() {
         initComponents();
-        GUIutils.setWindowPosition(this);
+        GUIutils.centerWindow(this);
     }
 
     /**
@@ -117,10 +133,16 @@ public class CreateNewSave extends javax.swing.JFrame implements GetWaitButton, 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /**
+     * Sets the saveName to the entered text
+     */
     private void saveNameTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveNameTextFieldActionPerformed
         this.saveName = saveNameTextField.getText();
     }//GEN-LAST:event_saveNameTextFieldActionPerformed
 
+    /**
+     * Ensures the data is up to date, then notifies the waiter
+     */
     private void continueButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_continueButtonActionPerformed
         this.petType = String.valueOf(petTypeComboBox.getSelectedItem());
         this.saveName = saveNameTextField.getText();
@@ -130,44 +152,12 @@ public class CreateNewSave extends javax.swing.JFrame implements GetWaitButton, 
         this.dispose();
     }//GEN-LAST:event_continueButtonActionPerformed
 
+    /**
+     * Sets the petType to whatever has been chosen in the combo box
+     */
     private void petTypeComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_petTypeComboBoxActionPerformed
         this.petType = String.valueOf(petTypeComboBox.getSelectedItem());
     }//GEN-LAST:event_petTypeComboBoxActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CreateNewSave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CreateNewSave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CreateNewSave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CreateNewSave.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new CreateNewSave().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel choosePetLabel;

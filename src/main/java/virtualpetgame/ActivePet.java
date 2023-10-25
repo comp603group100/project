@@ -107,13 +107,11 @@ public class ActivePet implements Serializable {
                     break;
                 case SAD:
                     this.money += 1;
-                    //lower states earn no money.
                     break;
-                default:
+                default: //lower states earn no money.
                     break;
             }
         }
-        //lower states earn no money.
     }
 
     /**

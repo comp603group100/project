@@ -27,7 +27,7 @@ public class GameDataManager {
             statement = conn.createStatement();
             this.initTable();
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            //doesnt matter
         }
     }
 

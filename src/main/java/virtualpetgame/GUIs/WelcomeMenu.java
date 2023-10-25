@@ -1,3 +1,6 @@
+/**
+ * @author group100 (19094184, 19088716)
+ */
 package virtualpetgame.GUIs;
 
 import javax.swing.JButton;
@@ -18,6 +21,9 @@ public class WelcomeMenu extends javax.swing.JFrame implements GetWaitButton, Ge
         return this.option;
     }
     
+    /**
+     * Notifies the waiter button that the program can continue, and disposes of the frame.
+     */
     private void notifyAndDispose() {
         synchronized(waiterButton) {
             waiterButton.notify();
@@ -34,7 +40,7 @@ public class WelcomeMenu extends javax.swing.JFrame implements GetWaitButton, Ge
         continueButton.setEnabled(cont);
         if (cont == false)
             continueButton.setToolTipText("No games available to continue");
-        GUIutils.setWindowPosition(this);
+        GUIutils.centerWindow(this);
     }
 
     /**
@@ -143,41 +149,6 @@ public class WelcomeMenu extends javax.swing.JFrame implements GetWaitButton, Ge
         this.option = "cont";
         this.notifyAndDispose();
     }//GEN-LAST:event_continueButtonActionPerformed
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(WelcomeMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(WelcomeMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(WelcomeMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(WelcomeMenu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new WelcomeMenu(false).setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton continueButton;
