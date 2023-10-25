@@ -8,11 +8,11 @@ import java.util.Random;
 public class Tick implements Runnable {
 
     private boolean running;
-    
+
     private static final int HUNGER = 0;
     private static final int BOREDOM = 1;
     private static final int CLEANLINESS = 2;
-    
+
     private static final int SLEEP_TIME = 1000; //1 second
     private boolean eventOccured = false;
 
@@ -27,26 +27,30 @@ public class Tick implements Runnable {
     @Override
     public void run() {
         this.running = true;
-        
+
         while (this.running) {
             try {
                 if (rand.nextInt(20) == 0) { //random number for 1/20 chance
-                    switch(rand.nextInt(3)) {
-                        case(HUNGER):
+                    switch (rand.nextInt(3)) {
+                        case (HUNGER):
                             this.activePet.increaseHunger(rand.nextInt(5) + 1);
                             break;
-                        case(BOREDOM):
+                        case (BOREDOM):
                             this.activePet.increaseBoredom(rand.nextInt(5) + 1);
                             break;
-                        case(CLEANLINESS):
+                        case (CLEANLINESS):
                             this.activePet.decreaseCleanliness(rand.nextInt(5) + 1);
                             break;
                     }
                     
-                    //money is only increased on tick events to slow it down and decrease screen updates.
+                    eventOccured = true;
+                }
+                
+                if (rand.nextInt(10) == 0) {
                     this.activePet.increaseMoney();
                     eventOccured = true;
                 }
+                
 
                 Thread.sleep(SLEEP_TIME);
             } catch (InterruptedException ex) {
@@ -55,7 +59,7 @@ public class Tick implements Runnable {
         }
 
     }
-    
+
     /**
      * cleanly stops the thread
      */
@@ -64,9 +68,9 @@ public class Tick implements Runnable {
     }
 
     /**
-     * Checks if a tick event has occurred, and returns true if so.
-     * Also resets the check so that subsequent checks are correct.
-     * 
+     * Checks if a tick event has occurred, and returns true if so. Also resets
+     * the check so that subsequent checks are correct.
+     *
      * @return Boolean true if an event has occurred, false otherwise.
      */
     public synchronized boolean eventOccured() {
