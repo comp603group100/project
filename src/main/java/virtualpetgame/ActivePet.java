@@ -100,13 +100,13 @@ public class ActivePet implements Serializable {
         if (null != state) {
             switch (state) {
                 case HAPPY:
-                    this.money += 5;
-                    break;
-                case NEUTRAL:
                     this.money += 3;
                     break;
-                case SAD:
+                case NEUTRAL:
                     this.money += 2;
+                    break;
+                case SAD:
+                    this.money += 1;
                     //lower states earn no money.
                     break;
                 default:
