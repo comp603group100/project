@@ -89,4 +89,10 @@ public class GUI {
         this.currentFrame.setTitle("Welcome");
         this.currentFrame.setVisible(true);
     }
+    
+    public void showLoadMenu() {
+        this.setCurrentFrame(new LoadMenu(this.game));
+        this.currentFrame.setTitle("Load File");
+        this.currentFrame.setVisible(true); 
+    }
 }

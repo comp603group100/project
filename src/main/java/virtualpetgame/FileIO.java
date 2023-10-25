@@ -97,43 +97,19 @@ public class FileIO {
         return false;
     }
 
-    /**
-     * Prompts the user to choose a save file from a list of available files.
-     *
-     * @return a String with the name of the chosen save file, not including the
-     * file extension.
-     */
-    public String chooseFile() {
+    public ArrayList<String> getFormattedFileList() {
 
-        int max = 0;
-
-        System.out.println("Enter the number of the save you want to load:");
+        ArrayList list = new ArrayList<String>();
 
         for (int i = 0; i < saves.size(); i++) {
-            System.out.println("[" + (i + 1) + "] " + saves.get(i) + " (" + getUnloadedPetType(saves.get(i)) + ")");
-            max = i;
+            list.add(saves.get(i) + " (" + getUnloadedPetType(saves.get(i)) + ")");
         }
 
-        boolean choosing = true;
-        int choice = 0;
-
-        while (choosing) {
-            try {
-                choice = keyboard.nextInt() - 1;
-                keyboard.nextLine();
-
-                if (choice > max && choice > 0) {
-                    System.out.println("Please enter a number corresponding to the save you want to load.");
-                } else {
-                    choosing = false;
-                }
-            } catch (java.util.InputMismatchException e) {
-                System.out.println("Please enter a number corresponding to the save you want to load.");
-                keyboard.next();
-            }
-        }
-
-        return saves.get(choice); //get the string from the arraylist.
+        return list;
+    }
+    
+    public String getFileFromIndex(int i) {
+        return this.saves.get(i);
     }
 
     /**
@@ -165,7 +141,7 @@ public class FileIO {
     public synchronized void save() {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(SAVE_FOLDER + this.fileName + EXTENSION);
-            try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+            try ( ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
                 objectOutputStream.writeObject(this.activePet);
                 this.gdm.writePreviousGame(this.fileName);
             }
@@ -184,7 +160,7 @@ public class FileIO {
     public synchronized ActivePet load() {
         try {
             ActivePet loadedObject;
-            try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(SAVE_FOLDER + this.fileName + EXTENSION))) {
+            try ( ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(SAVE_FOLDER + this.fileName + EXTENSION))) {
                 loadedObject = (ActivePet) objectInputStream.readObject();
             }
 
@@ -207,7 +183,7 @@ public class FileIO {
     public String getUnloadedPetType(String fileToCheck) {
         try {
             ActivePet loadedObject;
-            try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(SAVE_FOLDER + fileToCheck + EXTENSION))) {
+            try ( ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(SAVE_FOLDER + fileToCheck + EXTENSION))) {
                 loadedObject = (ActivePet) objectInputStream.readObject();
             }
 

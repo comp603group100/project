@@ -12,7 +12,7 @@ public class Game {
     Renderer renderer;
     Tick tick;
     ActivePet activePet;
-    FileIO fileIO;
+    public FileIO fileIO; //public so we can manage the files from anything that interfaces with the game (i.e. the GUI)
     Autosave autosave;
     InputHandler inputHandler;
     GameDataManager gameDBM;
@@ -129,7 +129,13 @@ public class Game {
             gui.waitForButton();
             switch (gui.getOption()) {
                 case ("load"):
-                    fileIO.setFileName(fileIO.chooseFile());
+                    gui.showLoadMenu();
+                    gui.waitForButton();
+                    fileIO.setFileName(
+                            fileIO.getFileFromIndex(
+                                    Integer.parseInt(
+                                            gui.getOption()
+                                    )));
                     this.activePet = fileIO.load();
                     break;
                 case ("new"):
