@@ -37,15 +37,17 @@ public class MainGame extends javax.swing.JFrame {
     }
 
     public void showDeathDialog() {
-        JOptionPane.showMessageDialog(this, "Oh no!\n"
-                + "Your pet has died!\n"
+        JOptionPane.showMessageDialog(this, 
+                "Your pet has died!\n"
                 + "Your save will be deleted automatically.",
                 "Oh no!",
                 JOptionPane.WARNING_MESSAGE);
+        this.dispose();
     }
 
     private void showHelpDialog() {
-        JOptionPane.showMessageDialog(this, "How to play:\n"
+        JOptionPane.showMessageDialog(this, 
+                "How to play:\n"
                 + "Feed, play with, or clean your pet to keep them happy.\n"
                 + "Try to keep hunger and boredom low, and cleanliness high.\n"
                 + "The happier your pet is, the more money you earn.\n"
