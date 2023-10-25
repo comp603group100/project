@@ -2,6 +2,7 @@ package virtualpetgame;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 import virtualpetgame.GUIs.*;
 
 public class GUI {
@@ -12,6 +13,14 @@ public class GUI {
     public MainGameGuiManager mainGame;
 
     public GUI(Game game) {
+
+        try {
+            UIManager.setLookAndFeel(
+                    UIManager.getSystemLookAndFeelClassName());
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            //do nothing
+        }
+
         this.game = game;
     }
 
@@ -58,7 +67,7 @@ public class GUI {
             return null;
         }
     }
-    
+
     public String getOption() {
         if (currentFrame instanceof GetOption) {
             return ((GetOption) currentFrame).getOption();
@@ -84,23 +93,23 @@ public class GUI {
         this.currentFrame.setTitle("Create new save");
         this.currentFrame.setVisible(true);
     }
-    
+
     public void showWelcomeMenu(boolean cont) {
         this.setCurrentFrame(new WelcomeMenu(cont));
         this.currentFrame.setTitle("Welcome");
         this.currentFrame.setVisible(true);
     }
-    
+
     public void showLoadMenu() {
         this.setCurrentFrame(new LoadMenu(this.game));
         this.currentFrame.setTitle("Load File");
-        this.currentFrame.setVisible(true); 
+        this.currentFrame.setVisible(true);
     }
-    
+
     public void showMainGame(Game game) { //we should know the game is working correctly by the time this method is called. rn thats managed in game.java
         this.setCurrentFrame(new MainGame(game));
         this.currentFrame.setTitle("Virtual Pet Game");
         this.currentFrame.setVisible(true);
-        this.mainGame = new MainGameGuiManager(this.game, (MainGame)currentFrame);
+        this.mainGame = new MainGameGuiManager(this.game, (MainGame) currentFrame);
     }
 }

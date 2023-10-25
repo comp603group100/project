@@ -6,7 +6,7 @@ import virtualpetgame.Game;
 
 public class MainGame extends javax.swing.JFrame {
 
-    private Game game;
+    private final Game game;
 
     public void setArt(String art) {
         this.petArtTextArea.setText(art);
@@ -330,10 +330,8 @@ public class MainGame extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainGame(new Game()).setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new MainGame(new Game()).setVisible(true);
         });
     }
 
