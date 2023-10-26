@@ -9,19 +9,16 @@ import virtualpetgame.pets.*;
 public class Game {
 
     //game objects
-    Scanner keyboard;
-    Renderer renderer;
     Tick tick;
-    ActivePet activePet;
-    FileIO fileIO;
+    public ActivePet activePet; //same as below, need to control pet status through the game from the gui
+    public FileIO fileIO; //public so we can manage the files from anything that interfaces with the game (i.e. the GUI)
     Autosave autosave;
-    InputHandler inputHandler;
     GameDataManager gameDBM;
+    GUI gui;
 
     //Threads
     Thread tickThread;
     Thread autosaveThread;
-    Thread inputHandlerThread;
 
     /**
      * Constructor to create a new game object. After creating the game object,
@@ -29,13 +26,11 @@ public class Game {
      * game. Then, the start() method can be called to start the game.
      */
     public Game() {
-        this.keyboard = new Scanner(System.in);
-        this.renderer = new Renderer();
         this.tick = new Tick();
         this.gameDBM = new GameDataManager();
         this.fileIO = new FileIO(gameDBM);
         this.autosave = new Autosave(this.fileIO);
-        this.inputHandler = new InputHandler(this);
+        this.gui = new GUI(this);
     }
 
     //flags for checking game state
@@ -54,46 +49,33 @@ public class Game {
      * and lets them choose the pet type they want.
      */
     private void createNewSave() {
-        System.out.print("Enter a name for your new save: ");
-        String saveName = keyboard.nextLine();
-        while (fileIO.fileExists(saveName)) {
-            System.out.print("A save with that name already exists. Try something else: ");
-            saveName = keyboard.nextLine();
-        }
-        fileIO.setFileName(saveName);
+        boolean saveCreated = false;
 
-        boolean choosing = true;
-        while (choosing) {
-            System.out.println("What type of pet do you want?");
-            System.out.print("[1] Cat, [2] Dog, [3] Monkey: ");
+        while (saveCreated == false) {
+            gui.showCreateSave();
+            gui.waitForButton();
 
-            String input = keyboard.nextLine().toLowerCase();
-            switch (input) {
-                case "cat":
-                case "1": {
-                    this.activePet = new ActivePet(new Cat());
-                    choosing = false;
-                    break;
+            if (fileIO.fileExists(gui.getSaveName())) {
+                gui.showError();
+            } else {
+                fileIO.setFileName(gui.getSaveName());
+
+                switch (gui.getPetType()) {
+                    case ("Cat"):
+                        this.activePet = new ActivePet(new Cat());
+                        break;
+                    case ("Dog"):
+                        this.activePet = new ActivePet(new Dog());
+                        break;
+                    case ("Monkey"):
+                        this.activePet = new ActivePet(new Monkey());
+                        break;
                 }
-                case "dog":
-                case "2": {
-                    this.activePet = new ActivePet(new Dog());
-                    choosing = false;
-                    break;
-                }
-                case "monkey":
-                case "3": {
-                    this.activePet = new ActivePet(new Monkey());
-                    choosing = false;
-                    break;
-                }
-                default:
-                    System.out.println("Bad input, please just enter a number.");
+
+                fileIO.setActivePet(this.activePet);
+                saveCreated = true;
             }
-
         }
-
-        fileIO.setActivePet(this.activePet);
     }
 
     /**
@@ -127,99 +109,41 @@ public class Game {
         if (initialised == true) {
             return INIT_ALREADY_COMPLETE;
         }
-        
-        System.out.println("+---------------------------+\n"
-                         + "|        Welcome to...      |\n"
-                         + "|      Virtual Pet Game!    |\n"
-                         + "+---------------------------+");
 
         //check if saves exist, then decide what to do.
         if (fileIO.savesExist() == false) {
             if (!gameDBM.getPlayedBefore()) {
-                System.out.println("Seems like this is your first time playing.\n"
-                        + "After creating a game and choosing your pet in the next step, the game will start.\n"
-                        + "You can feed, play with, or clean your pet to keep them happy.\n"
-                        + "The happier they are, the more money you'll earn.\n"
-                        + "If you neglect them, they'll become unhappy, or may even die.\n"
-                        + "Press enter to start.");
-                keyboard.nextLine();
+                gui.showFirstRunHelp();
+                gui.waitForButton();
                 gameDBM.setPlayedBefore(true);
             }
-            
-            System.out.println("You have no saved games.");
             createNewSave();
-            
-        } else if (fileIO.savesExist() && (gameDBM.getPreviousGame() == null || gameDBM.getPreviousGame().equals(""))) {
-            System.out.print("Would you like to load a save, or start a new game?\n"
-                    + "Enter: [1] Load or [2] New: ");
-
-            boolean choosing = true;
-            while (choosing) {
-
-                String input = keyboard.nextLine().toLowerCase();
-                switch (input) {
-                    case "l":
-                    case "load":
-                    case "1": {
-                        fileIO.setFileName(fileIO.chooseFile());
-                        this.activePet = fileIO.load();
-                        choosing = false;
-                        break;
-                    }
-                    case "n":
-                    case "new":
-                    case "2": {
-                        createNewSave();
-                        choosing = false;
-                        break;
-                    }
-                    default: {
-                        System.out.print("Bad choice, please enter 1 or 2: ");
-                    }
-                }
-
-            }
         } else {
-            System.out.print("Would you like to continue your last played save, load a save, or start a new game?\n"
-                    + "Enter: [1] Continue, [2] Load or [3] New: ");
-
-            boolean choosing = true;
-
-            while (choosing) {
-
-                String input = keyboard.nextLine().toLowerCase();
-                switch (input) {
-                    case "c":
-                    case "continue":
-                    case "cont":
-                    case "1": {
-                        fileIO.setFileName(gameDBM.getPreviousGame());
-                        this.activePet = fileIO.load();
-                        choosing = false;
-                        break;
-                    }
-                    case "l":
-                    case "load":
-                    case "2": {
-                        fileIO.setFileName(fileIO.chooseFile());
-                        this.activePet = fileIO.load();
-                        choosing = false;
-                        break;
-                    }
-                    case "n":
-                    case "new":
-                    case "3": {
-                        createNewSave();
-                        choosing = false;
-                        break;
-                    }
-                    default: {
-                        System.out.print("Bad choice, please enter 1, 2, or 3: ");
-                    }
-                }
-
+            boolean canContinueGame = !(fileIO.savesExist() && (gameDBM.getPreviousGame() == null || gameDBM.getPreviousGame().equals("")));
+            gui.showWelcomeMenu(canContinueGame);
+            gui.waitForButton();
+            switch (gui.getOption()) {
+                case ("load"):
+                    gui.showLoadMenu();
+                    gui.waitForButton();
+                    fileIO.setFileName(
+                            fileIO.getFileFromIndex(
+                                    Integer.parseInt(
+                                            gui.getOption()
+                                    )));
+                    this.activePet = fileIO.load();
+                    break;
+                case ("new"):
+                    createNewSave();
+                    break;
+                case ("cont"):
+                    fileIO.setFileName(gameDBM.getPreviousGame());
+                    this.activePet = fileIO.load();
+                    break;
+                default:
+                    System.out.println("[ERROR] Unhandled case in welcome menu");
+                    break;
             }
-
         }
 
         //final check to make sure things worked properly.
@@ -230,10 +154,8 @@ public class Game {
         //Create threads
         this.tickThread = new Thread(tick, "tick");
         this.autosaveThread = new Thread(autosave, "autosave");
-        this.inputHandlerThread = new Thread(inputHandler, "inputHandler");
 
         //Set required info for game to work.
-        this.renderer.setActivePet(activePet);
         this.tick.setActivePet(activePet);
 
         initialised = true;
@@ -258,15 +180,17 @@ public class Game {
 
         this.tickThread.start(); //begin tick thread, for game event updates.
         this.autosaveThread.start(); //begin autosave thread. Also saves the game as soon as it starts.
-        this.inputHandlerThread.start(); //begin the input handler thread
 
-        this.renderer.update(); //first draw, otherwise nothing will show until next tick event
+        this.gui.showMainGame(this);
+        if (gui.mainGame.verify() != 0)
+            return;
+        this.gui.mainGame.update();
 
         //MAIN GAME LOOP - very simple, waits for tick events, then updates the screen if things have changed.
         while (this.running) {
 
-            if (this.tick.eventOccured()) {
-                this.renderer.update();
+            if (this.tick.ticked()) {
+                this.gui.mainGame.update();
 
                 if (this.activePet.state == State.DEAD) {
                     //end game if pet dead
@@ -281,17 +205,15 @@ public class Game {
         this.autosave.stopThread();
 
         if (this.activePet.state == State.DEAD) {
-            /*
-            Game pauses here due to the inputHandler waiting for input.
-            This is intentional, so an AFK user can see that their game has ended when they return.
-             */
-
+            this.gui.mainGame.dead(); //show the death dialog so that the user knows what happened
             this.fileIO.delete();
         } else {
-            System.out.println("Game ended. Your progress has been automatically saved.");
-
-            //Save progress.
             fileIO.save();
         }
+    }
+    
+    //lets us update the gui from wherever we want
+    public void updateGUI() {
+        this.gui.mainGame.update();
     }
 }

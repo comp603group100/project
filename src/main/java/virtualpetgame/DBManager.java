@@ -10,9 +10,9 @@ import java.sql.SQLWarning;
 
 public class DBManager {
 
-    private static final String USER_NAME = "group100"; //your DB username
-    private static final String PASSWORD = "virtualpetgame"; //your DB password
-    private static final String URL = "jdbc:derby:GameDatabase; create=true";  //url of the DB host
+    private static final String USER_NAME = "group100";
+    private static final String PASSWORD = "virtualpetgame";
+    private static final String URL = "jdbc:derby:GameDatabase; create=true";
 
     Connection conn;
 
@@ -64,7 +64,7 @@ public class DBManager {
                 }
 
             } catch (SQLException ex) {
-                System.out.println(ex.getMessage());
+                //if table exists i dont wanna hear about it
             }
         }
     }

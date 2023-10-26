@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="line1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="line2" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="line3" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="line4" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="line5" alignment="0" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="15" max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="startButton" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="129" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="header" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="145" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="header" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="line1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="line2" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="line3" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="line4" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="line5" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="startButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JButton" name="startButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Start Game"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="startButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="header">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Welcome!"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="line1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Seems like this is your first time playing."/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="line2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="In the next step you&apos;ll create a save and choose your pet."/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="line3">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="You can feed, play with, or clean your pet to keep them happy."/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="line4">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="The happier they are, the more money you&apos;ll earn."/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="line5">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="If you neglect them, they&apos;ll become unhappy, or may even die."/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>

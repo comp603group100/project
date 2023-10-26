@@ -27,7 +27,7 @@ public class GameDataManager {
             statement = conn.createStatement();
             this.initTable();
         } catch (SQLException ex) {
-            System.out.println(ex.getMessage());
+            //doesnt matter
         }
     }
 
@@ -44,8 +44,7 @@ public class GameDataManager {
      */
     private void initTable() {
         try {
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT COUNT(*) FROM GameData");
+            ResultSet resultSet = this.statement.executeQuery("SELECT COUNT(*) FROM GameData");
             resultSet.next();
             int rowCount = resultSet.getInt(1);
             if (rowCount == 0) {
@@ -83,8 +82,7 @@ public class GameDataManager {
      */
     public String getPreviousGame() {
         try {
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT previousGame FROM GameData");
+            ResultSet resultSet = this.statement.executeQuery("SELECT previousGame FROM GameData");
             if (resultSet.next()) {
                 return resultSet.getString("previousGame");
             }
@@ -119,8 +117,7 @@ public class GameDataManager {
      */
     public boolean getPlayedBefore() {
         try {
-            Statement statement = conn.createStatement();
-            ResultSet resultSet = statement.executeQuery("SELECT playedBefore FROM GameData");
+            ResultSet resultSet = this.statement.executeQuery("SELECT playedBefore FROM GameData");
             if (resultSet.next()) {
                 return resultSet.getBoolean("playedBefore");
             }
