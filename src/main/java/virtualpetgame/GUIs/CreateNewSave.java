@@ -5,7 +5,6 @@ package virtualpetgame.GUIs;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
-import virtualpetgame.Game;
 
 public class CreateNewSave extends javax.swing.JFrame implements GetWaitButton, ShowError {
 

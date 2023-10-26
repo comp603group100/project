@@ -3,7 +3,6 @@
  */
 package virtualpetgame;
 
-import java.util.Scanner;
 import virtualpetgame.pets.*;
 
 public class Game {
