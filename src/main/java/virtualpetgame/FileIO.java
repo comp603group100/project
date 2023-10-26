@@ -14,7 +14,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -23,8 +22,6 @@ public class FileIO {
 
     private static final String SAVE_FOLDER = "./saves/";
     private static final String EXTENSION = ".save";
-
-    private final Scanner keyboard = new Scanner(System.in);
 
     private String fileName;
 
@@ -87,6 +84,12 @@ public class FileIO {
         this.activePet = activePet;
     }
 
+    /**
+     * Checks if a file exists
+     * 
+     * @param s file name to check for
+     * @return true if file exists
+     */
     public boolean fileExists(String s) {
         for (String f : saves) {
             if (s.equals(f)) {
@@ -97,6 +100,11 @@ public class FileIO {
         return false;
     }
 
+    /**
+     * Gets a list of the files and formats
+     * 
+     * @return ArrayList containing formatted strings
+     */
     public ArrayList<String> getFormattedFileList() {
 
         ArrayList list = new ArrayList<String>();
@@ -108,6 +116,12 @@ public class FileIO {
         return list;
     }
     
+    /**
+     * Takes in an index and returns a file string
+     * 
+     * @param i the index to get
+     * @return string name of the file
+     */
     public String getFileFromIndex(int i) {
         return this.saves.get(i);
     }

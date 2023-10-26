@@ -3,7 +3,7 @@
  */
 package virtualpetgame;
 
-public class Autosave implements Runnable{
+public class Autosave implements Runnable, StopThread{
     
     private boolean running;
     
@@ -14,7 +14,7 @@ public class Autosave implements Runnable{
     /**
      * Constructor for the autosaver.
      * 
-     * @param saverLoader the FileIO object to use for saving.
+     * @param fileIO the FileIO object to use for saving.
      */
     public Autosave(FileIO fileIO){
         this.fileIO = fileIO;
@@ -38,6 +38,7 @@ public class Autosave implements Runnable{
     /**
      * Cleanly stops the thread loop.
      */
+    @Override
     public void stopThread() {
         this.running = false;
     }

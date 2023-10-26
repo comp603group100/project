@@ -5,7 +5,7 @@ package virtualpetgame;
 
 import java.util.Random;
 
-public class Tick implements Runnable {
+public class Tick implements Runnable, StopThread {
 
     private boolean running;
 
@@ -36,7 +36,7 @@ public class Tick implements Runnable {
         while (this.running) {
             try {
                 if (rand.nextInt(20) == 0) { //random number for 1/20 chance
-                    switch (rand.nextInt(3)) {
+                    switch (rand.nextInt(CLEANLINESS + 0x1)) {
                         case (HUNGER):
                             this.activePet.increaseHunger(rand.nextInt(5) + 1);
                             break;
@@ -66,6 +66,7 @@ public class Tick implements Runnable {
     /**
      * cleanly stops the thread
      */
+    @Override
     public void stopThread() {
         this.running = false;
     }
